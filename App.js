@@ -1,19 +1,27 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import Header from "./components/Header";
+import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
 import "react-native-get-random-values";
-import ListItem from "./components/ListItem";
 import { v4 as uuidv4 } from "uuid";
+
+import Header from "./components/Header";
+import ListItem from "./components/ListItem";
+import AddItem from "./components/AddItem";
 
 const App = () => {
   const [items, setItems] = useState([
     {
       id: uuidv4(),
       text: "Juice",
+    },
+    {
       id: uuidv4(),
       text: "Milk",
+    },
+    {
       id: uuidv4(),
       text: "Eggs",
+    },
+    {
       id: uuidv4(),
       text: "Bread",
     },
@@ -25,9 +33,20 @@ const App = () => {
     });
   };
 
+  const addItem = (text) => {
+    if (!text) {
+      Alert.alert("Error", "Please enter an item", { text: "Ok" });
+    } else {
+      setItems((prevItems) => {
+        return [{ id: uuidv4(), text }, ...prevItems];
+      });
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Header />
+      <AddItem addItem={addItem} />
       <FlatList
         data={items}
         renderItem={({ item }) => (
